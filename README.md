@@ -1,5 +1,5 @@
 
-A SuperFX assembler for ca65, just include sfx65.inc in the gsu folder and you're good to go (requires at least ca65 and ld65, get here http://oliverschmidt.github.io/cc65/).
+A SuperFX assembler for ca65, just include casfx.inc in the gsu folder and you're good to go (requires at least ca65 and ld65, get here http://oliverschmidt.github.io/cc65/).
 
 Use the autonop "directive" to have the assembler automatically insert a nop opcode after jal and ret pseudo-ops.
 
