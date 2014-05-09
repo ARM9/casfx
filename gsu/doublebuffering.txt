@@ -1,0 +1,32 @@
+
+Double buffered graphics processing
+	
+GSU operation:
+start:
+	Render frame
+	set frame rendered flag
+	STOP, wait for go flag, go flag only set after SCPU NMI
+	goto start
+
+SCPU operation:
+start:
+	wait for IRQ
+	
+	IRQ received, check signature
+		if IRQ source = GSU {
+			then do nothing in particular (for now, also masked IRQ).
+			goto start
+		} else if IRQ = ppu {
+			set interrupt disable flag to avoid irq messing something up
+			set up hv data for next IRQ.
+			
+			if scanning location = top of screen {
+				wait for hblank, set screen brightness to inidisp_mirror.
+			} else if scanning location = bottom of screen {
+				wait for hblank, set force blank.
+				wait for gsu STOP (for now).
+				transfer current half of framebuffer to VRAM, increment index (1 bit).
+				update VRAM map base register and doublebuffer index for next field.
+			}
+		}
+	goto start

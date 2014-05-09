@@ -1,0 +1,7 @@
+	ROM access
+Reading one byte from ROM takes
+Operating freq 21.4 MHz: 5 cycles
+Operating freq 10.7 Mhz: 3 cycles
+Affected by GET instructions?
+
+
