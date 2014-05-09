@@ -3,7 +3,7 @@ A SuperFX assembler for ca65, just include casfx.inc in the gsu folder and you'r
 
 Use the autonop "directive" to have the assembler automatically insert a nop opcode after jal and ret pseudo-ops.
 
-To enable inline GSU assembly, define GSU_INLINE (can be any value, as long as the symbol is defined) before including sfx65.inc.
+To enable inline GSU assembly, define GSU_INLINE (can be any value, as long as the symbol is defined) before including casfx.inc.
 This will allow you to assemble GSU code in a 65816 assembly file, however all GSU opcodes (except move/moves/moveb/movew) are prefixed with an m to avoid collisions.
 
 	mwith R15
