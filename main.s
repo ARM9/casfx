@@ -19,7 +19,9 @@
 .bss
 	bg2_x: .res 2
 	
+	;ppu register mirrors
 	inidisp_mirror:		.res 1
+	
 	;gsu register mirrors
 	gsu_scmr_mirror:	.res 1
 	
@@ -37,8 +39,10 @@ Entry:
 	phk
 	plb
 	
+	; Make a blank tile with colour $xF.
+	; this is for the vertical screen borders,
+	; SetupMap will use palette 4 and I made colour $4F black in sfx_pal.
 	rep #$30
-	
 	lda #$FFFF
 	sta dp0
 	sep #$20
@@ -74,22 +78,23 @@ WRAM_Main:
 	sta GSU_SCMR
 	sta gsu_scmr_mirror
 	
-	stz GSU_RAMBR
+	stz GSU_RAMBR	; Set RAM bank to $70
 	
 	lda #^GSU_Entry
-	sta GSU_PBR
+	sta GSU_PBR		; Program bank, works like scpu pbr
 	
 	rep #$30
 	
 	lda #.loword(GSU_Entry)
-	sta GSU_R15
+	sta GSU_R15		; GSU execution begins here
 	
 	sep #$20
 	
+	; Bare bones ppu settings for demo purposes
 	lda #$02
 	sta REG_BGMODE
 	
-	lda #$2C
+	lda #(VRAM_FB_MAP >> 8) & $FC	; $2C
 	sta REG_BG1SC
 	lda #$73
 	sta REG_BG2SC
@@ -106,6 +111,7 @@ WRAM_Main:
 	lda #$01
 	sta REG_TM
 	
+	; do some vsyncing
 :	bit REG_HVBJOY
 	bpl :-
 :	bit REG_HVBJOY
@@ -193,9 +199,6 @@ WRAM_Main:
 	plp
 	rtl
 .endproc
-	dbg_BlockSize SetupMap
-
 
 .include "gsu/gsu.s"
-
 

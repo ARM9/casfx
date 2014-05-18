@@ -99,13 +99,18 @@ ScreenEndIRQ:
 	
 	jsr ChugFramebuffers
 	
-	lda f:parity
-	
+	lda f:parity	; Test our parity bit
+	and #$CA
+	lsr
+	stz $2121
+	sta $2122
+	sta $2122
 	
 	rep #$20
-	inc bg2_x
-	inc bg2_x
 	lda bg2_x
+	inc a
+	inc a
+	sta bg2_x
 	
 	sep #$20
 	sta REG_BG2HOFS

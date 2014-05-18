@@ -266,7 +266,12 @@ tri_data:
 	.byt	128, <-1
 	.byt	64, $02
 
+.include "derp.s"
+.include "affine.s"
+
+
 .segment "BANK1"
+; Since this is only called once we don't need to cache this
 BuildDisplayList:
 	;lea R9, $addr-2
 	;iwt Rcount, #.sizeof(data) ;in words please
@@ -287,6 +292,3 @@ BuildDisplayList:
 	
 	ret
 	nop
-
-.include "derp.s"
-.include "affine.s"

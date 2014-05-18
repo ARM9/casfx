@@ -32,13 +32,14 @@
 
 	VRAM_SCREEN1	= $0000
 	VRAM_SCREEN2	= $3000
-
+	VRAM_FB_MAP		= $2C00
+	
 ChugFramebuffers:
 	lda #GSU_GO_BIT
-:	bit GSU_SFR
+:	bit GSU_SFR		; Wait until GSU has STOPed
 	bne :-
 	
-	stz GSU_SCMR
+	stz GSU_SCMR	; Take sram&rom bus access
 	
 	rep #$20
 	lda f:vbl_count
@@ -46,13 +47,13 @@ ChugFramebuffers:
 	sta f:vbl_count
 	sep #$20
 	
-	ldy #.loword(FRAMEBUFFER_SIZE/2)
+	ldy #.loword(FRAMEBUFFER_SIZE / 2)
 	
 	and #$01
 	beq :+ ; branch on even frames
 		;dma top of framebuffer
 		ldx doublebuffer_index
-		stx $2116 ; $2116: Word address for accessing VRAM.
+		stx $2116	; Word address for accessing VRAM.
 		lda #^FRAMEBUFFER
 		ldx #.loword(FRAMEBUFFER)
 		jsr DMAToVRAM
@@ -64,12 +65,12 @@ ChugFramebuffers:
 :		;dma bottom of framebuffer
 		rep #$21
 		lda doublebuffer_index
-		adc #(FRAMEBUFFER_SIZE/4)
+		adc #(FRAMEBUFFER_SIZE / 4)
 		tax
 		sep #$20
 		stx $2116
 		lda #^FRAMEBUFFER
-		ldx #.loword(FRAMEBUFFER+(FRAMEBUFFER_SIZE/2))
+		ldx #.loword(FRAMEBUFFER + (FRAMEBUFFER_SIZE / 2))
 		jsr DMAToVRAM
 		lda #0
 		sta f:framebuffer_status
@@ -80,14 +81,14 @@ ChugFramebuffers:
 	
 		ldx #VRAM_SCREEN2
 		stx doublebuffer_index
-		lda #$50|(VRAM_SCREEN1>>12)
+		lda #$50 | (VRAM_SCREEN1 >> 12)	; BG2 base is $50, unelegant approach but this is for demonstration purposes
 		sta REG_BG12NBA
 	
 	bra @inc_fb_counter
 :	
 		ldx #VRAM_SCREEN1
 		stx doublebuffer_index
-		lda #$50|(VRAM_SCREEN2>>12) ; 3
+		lda #$50 | (VRAM_SCREEN2 >> 12) ; 3
 		sta REG_BG12NBA
 	
 @inc_fb_counter:
