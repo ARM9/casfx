@@ -10,8 +10,10 @@
 .endmacro
 
 .segment "BANK2"
+
 clear_everything:
 	.a16
+	.i16
 	lda #$1FFF
 	tcs
 	

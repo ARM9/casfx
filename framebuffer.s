@@ -27,14 +27,14 @@
 
 ;-------------------------------------------
 .code
-.a8
-.i16
 
 	VRAM_SCREEN1	= $0000
 	VRAM_SCREEN2	= $3000
 	VRAM_FB_MAP		= $2C00
 	
 ChugFramebuffers:
+	.a8
+	.i16
 	lda #GSU_GO_BIT
 :	bit GSU_SFR		; Wait until GSU has STOPed
 	bne :-
@@ -81,7 +81,7 @@ ChugFramebuffers:
 	
 		ldx #VRAM_SCREEN2
 		stx doublebuffer_index
-		lda #$50 | (VRAM_SCREEN1 >> 12)	; BG2 base is $50, unelegant approach but this is for demonstration purposes
+		lda #$50 | (VRAM_SCREEN1 >> 12)	; BG2 base is $50, unelegant approach but this is for demonstration purposes so gfdhsgf
 		sta REG_BG12NBA
 	
 	bra @inc_fb_counter

@@ -83,6 +83,8 @@ _dma_rom_to_wram:
 	rts
 
 _dma_wram_to_sram:
+	.a8
+	.i16
 	stx $4302
 	sta $4304
 	sty $4305

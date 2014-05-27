@@ -36,6 +36,8 @@ Reset:
 	init_snes
 
 Entry:
+	.a8
+	.i16
 	phk
 	plb
 	
