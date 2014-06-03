@@ -65,7 +65,7 @@ WRAM_Main:
 	sep #$20
 	lda #$5b
 	sta f:parity
-	
+
 	; Initialize GSU
 	lda #$01
 	sta GSU_CLSR ; Set clock frequency to 21.4MHz

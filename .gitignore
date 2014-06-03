@@ -13,7 +13,6 @@ Release/
 *.clr
 *.img
 *.map
-*.npp
 *.pc7
 *._pc
 *.mp7
@@ -22,8 +21,10 @@ Release/
 *.wav
 *.pnproj
 *.pnps
-*.vcproj
+*.npp
 *.vim
+*.swp
+*.vcproj
 *.sln
 *.ncb
 *.suo
@@ -38,3 +39,4 @@ Release/
 Icon?
 ehthumbs.db
 Thumbs.db
+

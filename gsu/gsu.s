@@ -172,7 +172,7 @@ Rdy		= R7	; trapezoid y height
 Rdr		= R8	; rotation delta
 Rcolor	= R9	; color counter
 
-;Clobber: R9
+;Clobber: R9, R3, R4, R5, R6, R7
 LoadPolygonData:
 	;iwt		R0, #$0101
 	movew	Rx1, (R9)
