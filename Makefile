@@ -1,10 +1,14 @@
 export PATH			:=	$(PATH):$(DEVKITSNES)/cc65/
 export EMULATORS	:=	$(DEVKITPRO)/emulators/snes
 
-snes9x		:= $(EMULATORS)/snes9x/snes9x-x64
 higan1		:= $(EMULATORS)/higan/higan-performance
 higan2		:= $(EMULATORS)/higan/higan-balanced
 higan3		:= $(EMULATORS)/higan/higan-accuracy
+ifeq ($(OS),Windows_NT)
+snes9x		:= $(EMULATORS)/snes9x/snes9x-x64
+else
+snes9x		:= $(EMULATORS)/snes9x/snes9x-gtk
+endif
 
 ASFLAGS		:= 
 LDFLAGS		:= -C lorom.cfg

@@ -43,7 +43,7 @@ Entry:
 	
 	; Make a blank tile with colour $xF.
 	; this is for the vertical screen borders,
-	; SetupMap will use palette 4 and I made colour $4F black in sfx_pal.
+	; SetupMap will use palette 4 and I made colour $4F black in colours.pal.
 	rep #$30
 	lda #$FFFF
 	sta dp0

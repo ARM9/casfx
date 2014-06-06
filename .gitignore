@@ -1,5 +1,6 @@
 Debug/
 Release/
+build/
 *.bat
 *.obj
 *.o
@@ -9,13 +10,8 @@ Release/
 *.sym
 *.spc
 *.it
-*.pic
-*.clr
-*.img
 *.map
-*.pc7
 *._pc
-*.mp7
 *.bnk
 *.rom
 *.wav
@@ -34,6 +30,8 @@ Release/
 .DS_Store
 .DS_Store?
 ._*
+tags
+.tags
 .Spotlight-V100
 .Trashes
 Icon?
