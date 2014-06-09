@@ -1,9 +1,10 @@
 export PATH			:=	$(PATH):$(DEVKITSNES)/cc65/
 export EMULATORS	:=	$(DEVKITPRO)/emulators/snes
 
-higan1		:= $(EMULATORS)/higan/higan-performance
-higan2		:= $(EMULATORS)/higan/higan-balanced
-higan3		:= $(EMULATORS)/higan/higan-accuracy
+higan-p		:= $(EMULATORS)/higan/higan-performance
+higan-b		:= $(EMULATORS)/higan/higan-balanced
+higan-a		:= $(EMULATORS)/higan/higan-accuracy
+
 ifeq ($(OS),Windows_NT)
 snes9x		:= $(EMULATORS)/snes9x/snes9x-x64
 else
@@ -39,8 +40,7 @@ run: all
 	$(snes9x) $(OUTPUT)
 
 run2: all
-	$(higan3) $(OUTPUT)
+	$(higan-a) $(OUTPUT)
 
 $(OUTPUT): $(OFILES)
-
-
+	

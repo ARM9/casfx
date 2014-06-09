@@ -8,9 +8,9 @@
 ;in:		Ry y (8.8), Rx x(8.8), R3 rotation
 ;clobber:	everything
 Rotate1:
-	ibt		R0, #^sine_lut
+	ibt		R0, #^sin_lut
 	romb
-	iwt		R0, #sine_lut
+	iwt		R0, #sin_lut
 	move	R14, R0
 	with	R14
 	add		R3
@@ -68,9 +68,9 @@ Rotate1:
 ;in:		Rty y (8.8), Rtx x(8.8), R3 rotation
 ;clobber:	everything
 Rotate2:
-	ibt		R0, #^sine_lut
+	ibt		R0, #^sin_lut
 	romb
-	iwt		R0, #sine_lut
+	iwt		R0, #sin_lut
 	move	R14, R0
 	with	R14
 	add		R3
@@ -156,5 +156,5 @@ Rotate2:
 	nop
 
 dbg_BlockSize GSU_MainLoop
-.include "sinelut.s"
+.include "sin_lut.s"
 

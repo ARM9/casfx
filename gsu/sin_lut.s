@@ -1,4 +1,5 @@
-sine_lut:
+; 8.8 fixed point sin lut
+sin_lut:
 .byt <(0)
 .byt <(3)
 .byt <(6)
