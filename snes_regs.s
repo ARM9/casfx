@@ -1,9 +1,9 @@
 ;PPU registers
 
-.define REG_INIDISP		$2100 ; f--- xxxx, Force vblank and set screen brightness
+.define REG_INIDISP		$2100 ; f--- xxxx, f = Force vblank x = screen brightness
 
 ;OAM control registers
-.define REG_OBSEL		$2101 ; sssn nbbb, s = obj size, n = name select b = name base addr>>14
+.define REG_OBSEL		$2101 ; sssn nbbb, s = obj size, n = tile table 2 offset, b = tile base address>>14
 ; Object size and tile address 
 	; sssnnbbb
 	;	 sss = size
@@ -13,19 +13,18 @@
 		;011 = 16x16 and 32x32 sprites
 		;100 = 16x16 and 64x64 sprites
 		;101 = 32x32 and 64x64 sprites
-	; nn = name select, bbb = name base select
 ; Each sprite entry in oam is 4 bytes (+2 bits in the high table), format is:
 ;	1 xxxx xxxx
 ;	2 yyyy yyyy
 ;	3 tttt tttt Note that this could also be considered as 'rrrrcccc' specifying the row and column of the tile in the 16x16 character table.
-;	4 hvoo pppN N = msb of tile number, p = set palette 0-7, o = priority, h/v flip
+;	4 hvoo pppN N = selects which tile table to use, p = set palette 0-7, o = priority, h/v flip
 ; Each byte in the high table contains settings for 4 sprites, ie 2 bits per sprite.
 ;	first bit = X "sign" bit for x position 
-;	second bit = S size bit, used to determine which size to use, each sss setting in $2101 has two different sizes see above. Set to 0 for small 1 for large
+;	second bit = S size bit, used to determine which size to use, each sss setting in $2101 has two different sizes, see above. Set to 0 for small 1 for large
 ; Sprite tile table in vram:
-; The first table is at the address specified by the Name Base bits of $2101, and the offset of the second is determined by the Name bits of $2101.
+; The first table is at the address specified by the tile base address bits of $2101, and the offset of the second is determined by the tile table offset bits of $2101.
 ; The word address in VRAM of a sprite's first tile may be calculated as:
-; ((Base<<13) + (cccccccc<<4) + (N ? ((Name+1)<<12) : 0)) & 0x7fff
+; ((Base<<13) + (tttttttt<<4) + (N ? ((tile table offset+1)<<12) : 0)) & 0x7fff
 .define REG_OBJSEL		$2101
 .define REG_OAMADDL		$2102 ; aaaa aaaa, a = OAM address low byte
 .define REG_OAMADDH		$2103 ; p--- ---b, OAM address high bit and priority
@@ -92,14 +91,14 @@
 
 ;Mode7 settings and matrix
 .define REG_M7SEL		$211A ; rc----yx
-; r = When clear, the playing field is 1024x1024 pixels (so the tilemap completely fills it). When set, the playing field is much larger, and the ‘empty space’ fill is controlled by bit 6
+; r = When clear, the playing field is 1024x1024 pixels (so the tilemap completely fills it). When set, the playing field is much larger, and the empty space fill is controlled by bit 6
 ; c = Empty space fill, when bit r is set: 0 = Transparent. 1 = Fill with character 0.
 ; x/y = Horizontal/Veritcal mirroring. If the bit is set, flip the 256x256 pixel 'screen' in that direction.
 
 ; Mode7 affine matrix, all are write twice registers
 ; M7A and M7B can also be used for signed multiplication.
 ; Write a 16 bit value to M7A and an 8 bit value to M7B and the 24 bit product
-; can be read from registers $2134 to $2136 with trivial delay.
+; can be read from registers $2134 to $2136 with no significant delay.
 ; However this is not possible during scanning in mode 7.
 .define REG_M7A		$211B ; aaaa aaaa aaaa aaaa
 .define REG_M7B		$211C ; bbbb bbbb bbbb bbbb
@@ -194,7 +193,7 @@
 
 .define REG_DEBUG	$21FC ; NO$SNS debug port, write ascii character
 ; The char_out function can be used with ASCII chars 20h..7Fh, line breaks may be
-; send as 0Dh, 0Ah, or 0Dh+0Ah (all three variations supported)
+; sent as 0Dh, 0Ah, or 0Dh+0Ah (all three variations supported)
 
 ;Old style joypad registers, these registers have extra slow access time
 .define REG_JOYSER0		$4016 ; Write 0 to enable joypad auto read something
@@ -388,14 +387,14 @@ DMA_FIXED	= $08
 ; SNES CPU access disabled  for COLR and POR registers
 ;.define GSU_COLR	Color register
 ; Access from snes cpu: -
-; $pppp pppp, p = palette entry used by plot instruction
+; pppp pppp, p = palette entry used by plot instruction
 ;.define GSU_POR	Plot option register
 ; Access from snes cpu: -
-; $---o fhdt
+; ---o fhdt
 ;	t = Transparency flag or rather whether to plot color 0 or not, 1 = plot color 0, 0 = don't plot color 0 (transparency on)
 ;		If t is on and the color register is 0, the plot circuit only changes the X coordinate (R1)
 ;	d = Dither flag, 1 = on (only valid in 4bpp mode?)
-;		if(R1&1 == R2&1) lower 4 bit sin the color register are plotted.
+;		if(R1&1 == R2&1) lower 4 bits in the color register are plotted.
 ;		else plot upper 4 bits of color register
 ;	h = Upper 4 bits color, 1 = on (4bpp, or 8bpp with f set)
 ;		When enabled, the upper 4 bits in the source register are stored in the lower 4 bits
@@ -445,7 +444,7 @@ GSU_GO_BIT	=	$20
 ; bbbb bbbb, works like SNES CPU program bank register
 .define GSU_ROMBR	$3036 ;Game pak rom bank register
 ; Access from snes cpu: R
-; bbbb bbbb, used for ROM buffering, specifies the bank for ops using the ROM buffer
+; bbbb bbbb, used for ROM buffering, specifies the bank for instructions using the ROM buffer
 
 .define GSU_CFGR	$3037 ;Config register
 ; Access from snes cpu: W
@@ -458,7 +457,7 @@ GSU_CFGR_IRQ_MASK	= $80
 
 .define GSU_SCBR	$3038 ;Screen base register
 ; Access from snes cpu: W
-; aaaa aaaa, a = start address (in 1KiB units ) in character data storage area
+; aaaa aaaa, a = start address (in 1KiB units ) for plot area
 
 .define GSU_CLSR	$3039 ;Clock select register
 ; Access from snes cpu: W
@@ -495,7 +494,7 @@ GSU_SCMR_OBJ	= $24
 ; Access from snes cpu: R
 ; cccc cccc cccc ----, This register specifies the starting address when data is loaded from ROM or gamepak RAM to cache RAM.
 
-.define GSU_CACHE	$3100 ;GSU cache start
+.define GSU_CACHE	$3100 ;GSU cache start exposed to scpu, writeable
 ;.define ccccccccc	$32FF ;GSU cache end
 
 ;.define bbbbbbbbb	$347F ; ?
