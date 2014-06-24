@@ -26,14 +26,16 @@ build/
 *.suo
 *.user
 
-*.*~
+.*~
+*~
+*.tmp
 .DS_Store
 .DS_Store?
 ._*
-tags
-.tags
 .Spotlight-V100
 .Trashes
+.tags
+tags
 Icon?
 ehthumbs.db
 Thumbs.db
