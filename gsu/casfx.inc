@@ -84,8 +84,8 @@ GSU_CA65_INC = 1
 ;.define _lsr_op	$03
 ;.define _rol_op	$04
 ;.define _bra_op	$05
-;.define _blt_op	$06
-;.define _bge_op	$07
+;.define _bge_op	$06
+;.define _blt_op	$07
 ;.define _bne_op	$08
 ;.define _beq_op	$09
 ;.define _bpl_op	$0A

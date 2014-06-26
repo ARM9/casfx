@@ -18,11 +18,13 @@ ASFLAGS		:=
 LDFLAGS		:= -C lorom.cfg
 
 BUILD		:= build
+SOURCES		:= . gsu
 TARGET		:= $(shell basename $(CURDIR))
 OUTPUT		:= $(CURDIR)/$(TARGET).sfc
 
-SFILES		:= main.s
-OFILES		:= $(SFILES:.s=.o)
+SFILES		:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
+
+export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 
 #----------------------------------------------------------
 %.o: %.s
@@ -31,11 +33,11 @@ OFILES		:= $(SFILES:.s=.o)
 .PHONY: clean run run2
 
 all: $(OUTPUT)
-
+	
 
 clean:
 	find . -regex '.*\.[so]\.map' | xargs -d"\n" rm
-	rm -r $(OUTPUT) $(OFILES)
+	rm -r $(OUTPUT) main.o
 
 run: all
 	$(snes9x) $(OUTPUT)
@@ -43,6 +45,7 @@ run: all
 run2: all
 	$(higan-a) $(OUTPUT)
 
-$(OUTPUT): $(OFILES)
-	$(LD) -o $@ $(LDFLAGS) -Ln $(TARGET).sym -vm -m $<.map $(OFILES)
+$(OUTPUT): $(SFILES)
+	$(AS) -o main.o $(ASFLAGS) -g -l main.s.map main.s
+	$(LD) -o $@ $(LDFLAGS) -Ln $(TARGET).sym -vm -m main.o.map main.o
 
