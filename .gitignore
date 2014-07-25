@@ -1,6 +1,5 @@
-Debug/
-Release/
 build/
+
 *.bat
 *.obj
 *.o
@@ -11,15 +10,12 @@ build/
 *.spc
 *.it
 *.map
-*._pc
 *.bnk
 *.rom
 *.wav
 *.pnproj
 *.pnps
-*.npp
 *.vim
-*.swp
 *.vcproj
 *.sln
 *.ncb
@@ -29,6 +25,7 @@ build/
 .*~
 *~
 *.tmp
+*.swp
 .DS_Store
 .DS_Store?
 ._*

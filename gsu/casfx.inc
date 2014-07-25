@@ -445,16 +445,16 @@ GSU_CA65_INC = 1
 			.assert 0, error, .concat(_CASFX_TEMP_ERR_STRING,name,";")
 		.endif
 		.if .xmatch ({name}, {"MOVEB"})
-			_ASSERT_RANGE_ABS arg1, r0, r11, .concat (_CASFX_TEMP_ERR_STRING,name," (Rn'), Rn; (R0-R11), R1-R15")
-			_ASSERT_RANGE_ABS arg2, r0, r15, .concat (_CASFX_TEMP_ERR_STRING,name," (Rn'), Rn; (R0-R11), R1-R15")
+			_ASSERT_RANGE_ABS arg1, r0, r11, .concat (_CASFX_TEMP_ERR_STRING,name," (Rm), Rn; (R0-R11), R1-R15")
+			_ASSERT_RANGE_ABS arg2, r0, r15, .concat (_CASFX_TEMP_ERR_STRING,name," (Rm), Rn; (R0-R11), R1-R15")
 			.if (arg2 <> 0)
 				mfrom arg2
 			.endif
 			mstb arg1
 			.exitmacro
 		.elseif .xmatch ({name}, {"MOVEW"})
-			_ASSERT_RANGE_ABS arg1, r0, r11, .concat (_CASFX_TEMP_ERR_STRING,name," (Rn'), Rn; (R0-R11), R0-R15")
-			_ASSERT_RANGE_ABS arg2, r0, r15, .concat (_CASFX_TEMP_ERR_STRING,name," (Rn'), Rn; (R0-R11), R0-R15")
+			_ASSERT_RANGE_ABS arg1, r0, r11, .concat (_CASFX_TEMP_ERR_STRING,name," (Rm), Rn; (R0-R11), R0-R15")
+			_ASSERT_RANGE_ABS arg2, r0, r15, .concat (_CASFX_TEMP_ERR_STRING,name," (Rm), Rn; (R0-R11), R0-R15")
 			.if (arg2 <> 0)
 				mfrom arg2
 			.endif
@@ -474,16 +474,16 @@ GSU_CA65_INC = 1
 	.elseif .xmatch (.left (1, {arg2}), {(})
 		
 		.if .xmatch ({name}, {"MOVEB"})
-			_ASSERT_RANGE_ABS arg1, r0, r15, .concat (_CASFX_TEMP_ERR_STRING,name," Rn, (Rn'); R0-R15, (R0-R11)")
-			_ASSERT_RANGE_ABS arg2, r0, r11, .concat (_CASFX_TEMP_ERR_STRING,name," Rn, (Rn'); R0-R15, (R0-R11)")
+			_ASSERT_RANGE_ABS arg1, r0, r15, .concat (_CASFX_TEMP_ERR_STRING,name," Rn, (Rm); R0-R15, (R0-R11)")
+			_ASSERT_RANGE_ABS arg2, r0, r11, .concat (_CASFX_TEMP_ERR_STRING,name," Rn, (Rm); R0-R15, (R0-R11)")
 			.if (arg1 <> 0)
 				mto arg1
 			.endif
 			mldb arg2
 			.exitmacro
 		.elseif .xmatch ({name}, {"MOVEW"})
-			_ASSERT_RANGE_ABS arg1, r0, r15, .concat (_CASFX_TEMP_ERR_STRING,name," Rn, (Rn'); R0-R15, (R0-R11)")
-			_ASSERT_RANGE_ABS arg2, r0, r11, .concat (_CASFX_TEMP_ERR_STRING,name," Rn, (Rn'); R0-R15, (R0-R11)")
+			_ASSERT_RANGE_ABS arg1, r0, r15, .concat (_CASFX_TEMP_ERR_STRING,name," Rn, (Rm); R0-R15, (R0-R11)")
+			_ASSERT_RANGE_ABS arg2, r0, r11, .concat (_CASFX_TEMP_ERR_STRING,name," Rn, (Rm); R0-R15, (R0-R11)")
 			.if (arg1 <> 0)
 				mto arg1
 			.endif
@@ -512,7 +512,7 @@ GSU_CA65_INC = 1
 		.exitmacro
 	.endif
 	.if .not .xmatch ({name}, {"MOVE"})
-		.assert 0, error, .concat(_CASFX_TEMP_ERR_STRING,name,";"; Did you mean ",name," Rn, (Rn') or (Rn'), Rn?")
+		.assert 0, error, .concat(_CASFX_TEMP_ERR_STRING,name,"; Did you mean ",name," Rn, (Rm) or (Rm), Rn?")
 	.endif
 	_ASSERT_RANGE_ABS arg1, r0, r15, .concat (_CASFX_TEMP_ERR_STRING,name," Sreg, Dreg; R0-R15, R0-R15")
 	_ASSERT_RANGE_ABS arg2, r0, r15, .concat (_CASFX_TEMP_ERR_STRING,name," Sreg, Dreg; R0-R15, R0-R15")
@@ -529,10 +529,10 @@ GSU_CA65_INC = 1
 ; moves R1, R2 R2 -> R1 and sets flags accordingly
 
 .macro moves dreg, sreg
-	_ASSERT_RANGE_ABS dreg, r0, r15, .concat (_CASFX_TEMP_ERR_STRING," Dreg, Sreg; R0-R15, R0-R15")
-	_ASSERT_RANGE_ABS sreg, r0, r15, .concat (_CASFX_TEMP_ERR_STRING," Dreg, Sreg; R0-R15, R0-R15")
+	_ASSERT_RANGE_ABS dreg, r0, r15, .concat (_CASFX_TEMP_ERR_STRING,"MOVES Dreg, Sreg; R0-R15, R0-R15")
+	_ASSERT_RANGE_ABS sreg, r0, r15, .concat (_CASFX_TEMP_ERR_STRING,"MOVES Dreg, Sreg; R0-R15, R0-R15")
 	.if .xmatch (.left (1, {dreg} ), {(}) || .xmatch (.left (1, {sreg}), {(})
-		.assert 0, error, .concat(_CASFX_TEMP_ERR_STRING," Dreg, Sreg; R0-R15, R0-R15")
+		.assert 0, error, .concat(_CASFX_TEMP_ERR_STRING,"MOVES Dreg, Sreg; R0-R15, R0-R15")
 	.endif
 	mwith dreg
 	mfrom sreg
@@ -600,7 +600,7 @@ GSU_CA65_INC = 1
 
 ;.repeat 16, i
 ;	.if .xmatch({val}, .ident(.sprintf("r%d", i)))
-;		.byte op, 
+;		.byte op + i, 
 ;	.endif
 ;.endrepeat
 
