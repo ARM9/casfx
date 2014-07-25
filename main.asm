@@ -157,8 +157,8 @@ WRAM_Main:
 	; vhopppcc cccccccc
 	lda #$1400 ; start at tile 0, use palette 5
 	sta dp0
-	
-	lda #$12A0 ; blank tile, pal 6
+	; vhopppcc cccccccc
+	lda #$12A0 ; blank tile, pal 4
 	sta dp1
 	
 @begin_fill:
