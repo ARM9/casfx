@@ -14,21 +14,18 @@ else
 snes9x		:= $(EMULATORS)/snes9x/snes9x-gtk
 endif
 
-ASFLAGS		:= 
-LDFLAGS		:= -C lorom.cfg
-
 BUILD		:= build
 SOURCES		:= . gsu
 TARGET		:= $(shell basename $(CURDIR))
 OUTPUT		:= $(CURDIR)/$(TARGET).sfc
 
+ASFLAGS		:= -g -l main.asm.map 
+LDFLAGS		:= -C lorom.cfg -Ln $(TARGET).sym -vm -m main.o.map 
+
 SFILES		:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.asm)))
 
 export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 
-#----------------------------------------------------------
-%.o: %.asm
-	$(AS) -o $@ $(ASFLAGS) -g -l $<.map $<
 #----------------------------------------------------------
 .PHONY: clean run run2
 
@@ -46,6 +43,6 @@ run2: all
 	$(higan-a) $(OUTPUT)
 
 $(OUTPUT): $(SFILES)
-	$(AS) -o main.o $(ASFLAGS) -g -l main.asm.map main.asm
-	$(LD) -o $@ $(LDFLAGS) -Ln $(TARGET).sym -vm -m main.o.map main.o
+	$(AS) -o main.o $(ASFLAGS) main.asm
+	$(LD) -o $@ $(LDFLAGS) main.o
 
