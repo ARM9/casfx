@@ -9,6 +9,7 @@
 	jml clear_everything
 .endmacro
 
+; Put cold code in bank 2 to avoid cluttering PRGRAM
 .segment "BANK2"
 
 clear_everything:
@@ -122,9 +123,6 @@ clear_everything:
 	;$2183 is incremented after 64KiB has been transfered
 	nop
 	sta $420B		;now set the next 64k
-	
-	lda #$7E	; Probably don't have to do this? $2183 ---- ---b one bit register
-	sta $2183
 	
 	;Clear the framebuffer
 	;ldx #.loword(FRAMEBUFFER)

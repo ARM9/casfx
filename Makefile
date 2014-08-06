@@ -19,7 +19,7 @@ SOURCES		:= . gsu
 TARGET		:= $(shell basename $(CURDIR))
 OUTPUT		:= $(CURDIR)/$(TARGET).sfc
 
-ASFLAGS		:= -g -l main.asm.map 
+ASFLAGS		:= -g -l main.asm.map
 LDFLAGS		:= -C lorom.cfg -Ln $(TARGET).sym -vm -m main.o.map 
 
 SFILES		:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.asm)))
@@ -33,8 +33,8 @@ all: $(OUTPUT)
 	
 
 clean:
-	find . -regex '.*\.\(asm\|o\)\.map' | xargs -d"\n" rm
-	rm -r $(OUTPUT) $(TARGET).sym main.o
+	find . -regex '.*\.\(asm\|o\)\.map' | xargs -d"\n" rm -rf
+	rm -rf $(OUTPUT) $(TARGET).sym main.o
 
 run: all
 	$(snes9x) $(OUTPUT)

@@ -120,7 +120,7 @@ ScreenEndIRQ:
 	rts
 
 NMIHandler:
-	
+	; Using IRQ as an earlier NMI
 IRQHandler:
 	rep #$30
 	pha

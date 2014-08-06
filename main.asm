@@ -1,5 +1,5 @@
 
-.include "header.inc"
+.include "header.asm"
 
 .code
 .include "debug.asm"
@@ -32,7 +32,7 @@
 ;-------------------------------------------
 .code
 
-Reset:
+_Reset:
 	init_snes
 
 Entry:
