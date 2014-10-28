@@ -1,6 +1,6 @@
 
 ; a bunch of nonsense
-.include "sfx65.inc"
+.include "casfx.inc"
 
 .bss
 ply: .res 5
@@ -150,12 +150,13 @@ label:
 	move r15,#<-42
 	move r0,#4242
 	
-	move r1,(42)
-	move r2,(69)
-	move r3,(512)
-	move (42),r4
-	move (69),r5
-	move (512),r6
+    ; removed
+	;move r1,(42)
+	;move r2,(69)
+	;move r3,(512)
+	;move (42),r4
+	;move (69),r5
+	;move (512),r6
 	
 	moveb R0,(R8)
 	moveb r8,(R9)

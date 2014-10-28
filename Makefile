@@ -8,6 +8,7 @@ higan-p		:= $(EMULATORS)/../higan/higan-performance
 higan-b		:= $(EMULATORS)/../higan/higan-balanced
 higan-a		:= $(EMULATORS)/../higan/higan-accuracy
 
+bsnes		:= $(EMULATORS)/bsnes/bsnes
 ifeq ($(OS),Windows_NT)
 snes9x		:= $(EMULATORS)/snes9x/snes9x-x64
 else
@@ -27,7 +28,7 @@ SFILES		:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.asm)))
 export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 
 #----------------------------------------------------------
-.PHONY: clean run run2
+.PHONY: clean debug run run2
 
 all: $(OUTPUT)
 	
@@ -36,6 +37,8 @@ clean:
 	find . -regex '.*\.\(asm\|o\)\.map' | xargs -d"\n" rm -rf
 	rm -rf $(OUTPUT) $(TARGET).sym main.o
 
+debug: all
+	$(bsnes) $(OUTPUT)
 run: all
 	$(snes9x) $(OUTPUT)
 
