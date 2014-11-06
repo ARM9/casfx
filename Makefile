@@ -7,7 +7,6 @@ LD	:= ld65
 higan-p		:= $(EMULATORS)/../higan/higan-performance
 higan-b		:= $(EMULATORS)/../higan/higan-balanced
 higan-a		:= $(EMULATORS)/../higan/higan-accuracy
-
 bsnes		:= $(EMULATORS)/bsnes/bsnes
 ifeq ($(OS),Windows_NT)
 snes9x		:= $(EMULATORS)/snes9x/snes9x-x64
@@ -20,7 +19,7 @@ SOURCES		:= . gsu
 TARGET		:= $(shell basename $(CURDIR))
 OUTPUT		:= $(CURDIR)/$(TARGET).sfc
 
-ASFLAGS		:= -g -l main.asm.map
+ASFLAGS		:= -g
 LDFLAGS		:= -C lorom.cfg -Ln $(TARGET).sym -vm -m main.o.map 
 
 SFILES		:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.asm)))
@@ -39,6 +38,7 @@ clean:
 
 debug: all
 	$(bsnes) $(OUTPUT)
+
 run: all
 	$(snes9x) $(OUTPUT)
 
@@ -48,4 +48,6 @@ run2: all
 $(OUTPUT): $(SFILES)
 	$(AS) -o main.o $(ASFLAGS) main.asm
 	$(LD) -o $@ $(LDFLAGS) main.o
+	@sed -e "s/al \([A-Za-z0-9]\+ \)\.\(.*\)/00\1\2/g" $(TARGET).sym > $(TARGET).sym2
+	@mv $(TARGET).sym2 $(TARGET).sym
 
