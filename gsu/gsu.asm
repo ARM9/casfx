@@ -40,7 +40,7 @@ pc		= R15	; program counter PRESERVE
 ;.listbytes	64
 
 GSU_Entry:
-	move sp,	#$200	; Set up stack pointer
+	move sp,	#$2000	; Set up stack pointer
 	move R14,	#$8000	; ROM address for GETxx instructions
 	;ibt R0, #^GSU_Entry
 	;romb

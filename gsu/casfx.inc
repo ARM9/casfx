@@ -447,14 +447,14 @@ GSU_CA65_INC = 1
 
 ; Custom pseudo-op macros
 
-; Stack push/pop pseudo-ops, ascending
+; Stack push/pop pseudo-ops, full descending
 .macro mpush reg0, reg1, reg2, reg3, reg4, reg5, reg6, reg7, reg8, reg9, reg10, reg11, reg12, reg13, reg14, reg15
     .ifblank reg0
         .exitmacro
     .else
+        mdec R10
+        mdec R10
         movew (R10), reg0
-        minc R10
-        minc R10
     .endif
     mpush reg1, reg2, reg3, reg4, reg5, reg6, reg7, reg8, reg9, reg10, reg11, reg12, reg13, reg14, reg15
 .endmacro
@@ -463,9 +463,9 @@ GSU_CA65_INC = 1
     .ifblank reg0
         .exitmacro
     .else
-        mdec R10
-        mdec R10
         movew reg0, (R10)
+        minc R10
+        minc R10
     .endif
     mpop reg1, reg2, reg3, reg4, reg5, reg6, reg7, reg8, reg9, reg10, reg11, reg12, reg13, reg14, reg15
 .endmacro
