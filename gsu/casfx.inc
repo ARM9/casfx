@@ -50,6 +50,11 @@ _GSU_CPU_INC = 1
 .define R14     14
 .define R15     15
 
+.define sp      r10
+.define pc      r15
+.define SP      r10
+.define PC      r15
+
 .define _alt1_op    $3D
 .define _alt2_op    $3E
 .define _alt3_op    $3F
@@ -325,7 +330,7 @@ _GSU_CPU_INC = 1
 
 .define mhib    _op_implied $C0,
 
-.define mgetc   _op_implied $DF,
+.define getc    _op_implied $DF,
 .define mramb   _op_implied $DF,_alt2_op
 .define mromb   _op_implied $DF,_alt3_op
 
@@ -612,7 +617,6 @@ _GSU_CPU_INC = 1
 .define getbh   _pseudo_op_1arg {mgetbh},
 .define getbl   _pseudo_op_1arg {mgetbl},
 .define getbs   _pseudo_op_1arg {mgetbs},
-.define getc    _pseudo_op_1arg {mgetc},
 
 ; fmult a0 -> with a0; fmult
 ; fmult a0, a1, a2 -> to a0; from (a1==r6?a2:a1); fmult
