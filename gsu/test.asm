@@ -13,37 +13,37 @@ bar = 66
 
 iwt r5, #lda
 
-;main:
-;	iwt R10, #$2FE ; set up stack pointer
-;	ibt R1, #$FF
-;	jal setup
-;	
-;	;ibt r12, #$7F ; loop 127 times
-;	
-;	move r12, (foo)
-;	moveb (r11), r15
-;	iwt r13, #@loop
-;	;move r12, #@loop
-;@loop:
-;	loop
-;	
-;	bra @loop
-;	inc r1
-;
-;setup:
-;	push r1
-;	push r11
-;	
-;	with r11
-;	add r10
-;	
-;	move r1, r11
-;	
-;	pop r11, r1
-;	ret
-;	nop
-;
-	
+main:
+	iwt R10, #$2FE ; set up stack pointer
+	ibt R1, #$FF
+	jal setup
+
+	;ibt r12, #$7F ; loop 127 times
+
+	moveb (r11), r15
+	iwt r13, #@loop
+	lea r12, #@loop
+	lea r12, @loop
+@loop:
+	loop
+
+	bra @loop
+	inc r1
+
+setup:
+	push r1
+	push r11
+
+	with r11
+	add r10
+
+	move r1, r11
+
+	;pop r11, r1
+	ret
+	nop
+
+
 	jal 1234
 	ret
 	push R0
@@ -53,7 +53,7 @@ iwt r5, #lda
 	cache
 	lsr
 	rol
-	
+
 label:
 	bra label
 	bge label
@@ -66,7 +66,7 @@ label:
 	bcs label
 	bvc label
 	bvs label
-	
+
 	to r0
 	with r1
 	stw (r2)
@@ -74,7 +74,7 @@ label:
 	alt1
 	alt2
 	alt3
-	
+
 	ldw (r3)
 	plot
 	swap
@@ -84,7 +84,7 @@ label:
 	sub r5
 	merge
 	and r6
-	
+
 	mult r7
 	sbk
 	link #3
@@ -96,7 +96,7 @@ label:
 	fmult
 	ibt r9,#42
 	from r10
-	
+
 	hib
 	or r11
 	inc r12
@@ -104,8 +104,8 @@ label:
 	dec r13
 	getb
 	iwt r14,#4242
-	
-	
+
+
 	stb (r0)
 	ldb (r0)
 	rpix
@@ -113,7 +113,7 @@ label:
 	adc r15
 	sbc r0
 	bic r1
-	
+
 	umult r2
 	div2
 	ljmp r8
@@ -122,8 +122,8 @@ label:
 	xor r4
 	getbh
 	lm r5,(4242)
-	
-	
+
+
 	add #5
 	sub #6
 	and #7
@@ -133,7 +133,7 @@ label:
 	ramb
 	getbl
 	sm (4242),r7
-	
+
 	adc #5
 	cmp r8
 	bic #7
@@ -141,15 +141,15 @@ label:
 	xor #12
 	romb
 	getbs
-	
-	
+
+
 	move r9,r10
 	moves r11,r12
 	lea r13,4242
 	move r14,#42
 	move r15,#<-42
 	move r0,#4242
-	
+
     ; removed
 	;move r1,(42)
 	;move r2,(69)
@@ -157,12 +157,12 @@ label:
 	;move (42),r4
 	;move (69),r5
 	;move (512),r6
-	
+
 	moveb R0,(R8)
 	moveb r8,(R9)
 	moveb (R10),r0
 	moveb (R11),r12
-	
+
 	movew r0,(r11)
 	movew r14,(r11)
 	movew (r1),r0
@@ -174,13 +174,13 @@ label:
 ;	mpop R15
 ;	mpop r0
 ;	mret
-;	
+;
 ;	mstop
 ;	mnop
 ;	mcache
 ;	mlsr
 ;	mrol
-;	
+;
 ;label:
 ;	mbra label
 ;	mbge label
@@ -193,7 +193,7 @@ label:
 ;	mbcs label
 ;	mbvc label
 ;	mbvs label
-;	
+;
 ;	mto r0
 ;	mwith r1
 ;	mstw (r2)
@@ -201,7 +201,7 @@ label:
 ;	malt1
 ;	malt2
 ;	malt3
-;	
+;
 ;	mldw (r3)
 ;	mplot
 ;	mswap
@@ -211,7 +211,7 @@ label:
 ;	msub r5
 ;	mmerge
 ;	mand r6
-;	
+;
 ;	mmult r7
 ;	msbk
 ;	mlink #3
@@ -223,7 +223,7 @@ label:
 ;	mfmult
 ;	mibt r9,#42
 ;	mfrom r10
-;	
+;
 ;	mhib
 ;	mor r11
 ;	minc r12
@@ -231,8 +231,8 @@ label:
 ;	mdec r13
 ;	mgetb
 ;	miwt r14,#4242
-;	
-;	
+;
+;
 ;	mstb (r0)
 ;	mldb (r0)
 ;	mrpix
@@ -240,7 +240,7 @@ label:
 ;	madc r15
 ;	msbc r0
 ;	mbic r1
-;	
+;
 ;	mumult r2
 ;	mdiv2
 ;	mljmp r8
@@ -249,8 +249,8 @@ label:
 ;	mxor r4
 ;	mgetbh
 ;	mlm r5,(4242)
-;	
-;	
+;
+;
 ;	madd #5
 ;	msub #6
 ;	mand #7
@@ -260,7 +260,7 @@ label:
 ;	mramb
 ;	mgetbl
 ;	msm (4242),r7
-;	
+;
 ;	madc #5
 ;	mcmp r8
 ;	mbic #7
@@ -268,27 +268,27 @@ label:
 ;	mxor #12
 ;	mromb
 ;	mgetbs
-;	
-;	
+;
+;
 ;	move r9,r10
 ;	moves r11,r12
 ;	mlea r13,4242
 ;	move r14,#42
 ;	move r15,#<-42
 ;	move r0,#4242
-;	
+;
 ;	move r1,(42)
 ;	move r2,(69)
 ;	move r3,(512)
 ;	move (42),r4
 ;	move (69),r5
 ;	move (512),r6
-;	
+;
 ;	moveb R0,(R8)
 ;	moveb r8,(R9)
 ;	moveb (R10),r0
 ;	moveb (R11),r12
-;	
+;
 ;	movew r0,(r11)
 ;	movew r14,(r11)
 ;	movew (r1),r0

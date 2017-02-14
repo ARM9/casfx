@@ -3,6 +3,7 @@ build/
 *.bat
 *.obj
 *.o
+*.out
 *.sfc
 *.smc
 *.srm
