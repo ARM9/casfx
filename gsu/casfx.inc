@@ -308,9 +308,9 @@ _GSU_CPU_INC = 1
 .define mlsr    _op_implied $03,
 .define mrol    _op_implied $04,
 
-.define loop   _op_implied $3C, ; if(--r12 != 0) then R15 = R13
+.define loop    _op_implied $3C, ; if(--r12 != 0) then R15 = R13
 
-.define plot   _op_implied $4C,
+.define mplot   _op_implied $4C,
 .define mrpix   _op_implied $4C,_alt1_op
 .define mcolor  _op_implied $4E,
 .define mcmode  _op_implied $4E,_alt1_op
@@ -749,6 +749,14 @@ _GSU_CPU_INC = 1
     mmerge
 .endmac
 
+.macro plot a0, a1
+    .if .paramcount = 2
+        .assert a0 = r1 && a1 = r2, error, .concat(_CASFX_ERR_STR, "PLOT: operands must be r1, r2")
+    .else
+        .assert .paramcount <> 1, error, .concat(_CASFX_ERR_STR, "PLOT: 0 or 2 operands (r1, r2)")
+    .endif
+    mplot
+.endmac
 ;.define adc     madc
 ;.define add     madd
 ;.define alt1    malt1

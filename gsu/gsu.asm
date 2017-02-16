@@ -19,12 +19,12 @@ Rmulr   = R4    ; Lower 16 bit result of lmult
 Rmul    = R6    ; Multiplier for fmult and lmult
 Rtx     = R7    ; fixed point texel X position for merge
 Rty     = R8    ; fixed point texel Y position for merge
-sp      = R10   ; stack pointer PRESERVE
+;sp      = R10   ; stack pointer PRESERVE
 lr      = R11   ; link register PRESERVE
 Rcount  = R12   ; loop count, hline length
 Rloop   = R13   ; loop address
 Rrombuf = R14   ; rom buffer address register
-pc      = R15   ; program counter PRESERVE
+;pc      = R15   ; program counter PRESERVE
 
 .include "polygon.asm"
 
