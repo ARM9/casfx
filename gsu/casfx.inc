@@ -495,20 +495,20 @@ _GSU_CPU_INC = 1
     ;.assert .loword(dest) <= $FFFF, error, .sprintf("Address %d out of range (jal 0-$FFFF)", dest)
     link #4
     iwt R15, #dest
-    .ifdef _CASFX_AUTO_NOP
+    .ifdef ::_CASFX_AUTO_NOP
         nop
     .endif
 .endmacro
 
 .macro ret
     jmp r11
-    .ifdef _CASFX_AUTO_NOP
+    .ifdef ::_CASFX_AUTO_NOP
         nop
     .endif
 .endmacro
 
 .macro autonop
-    _CASFX_AUTO_NOP = 1
+    ::_CASFX_AUTO_NOP = 1
 .endmacro
 
 ;.macro jsl dest
