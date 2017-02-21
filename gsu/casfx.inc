@@ -470,10 +470,16 @@ _GSU_CPU_INC = 1
 
 .macro pop reg0, reg1, reg2, reg3, reg4, reg5, reg6, reg7, reg8, reg9, reg10, reg11, reg12, reg13, reg14, reg15
     .ifnblank reg0
+        .ifnblank reg1
+            .assert reg0 <> r15, error, "R15 not in tail position for POP!!"
+        .endif
         inc R10
         inc R10
         movew reg0, (R10)
         pop reg1, reg2, reg3, reg4, reg5, reg6, reg7, reg8, reg9, reg10, reg11, reg12, reg13, reg14, reg15
+        .if reg0 = r15 && .defined(::_CASFX_AUTO_NOP)
+            nop
+        .endif
     .endif
 .endmacro
 
@@ -484,6 +490,7 @@ _GSU_CPU_INC = 1
 .endmacro
 
 .macro popb r
+    .assert r <> r15, warning, "Are you sure you want to pop a byte into r15?"
     inc R10
     moveb r, (R10)
 .endmacro
@@ -507,6 +514,7 @@ _GSU_CPU_INC = 1
     .endif
 .endmacro
 
+; Automatically place nop instruction after `jal`,`ret` and `pop [..,]r15` pseudo ops
 .macro autonop
     ::_CASFX_AUTO_NOP = 1
 .endmacro
