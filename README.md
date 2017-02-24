@@ -2,16 +2,35 @@
 ## A SuperFX assembler for ca65 ##
 Just include casfx.inc in the gsu folder and you're good to go (requires at least ca65 and ld65, get here http://oliverschmidt.github.io/cc65/).
 
-Use the autonop "directive" to have the assembler automatically insert a nop opcode after jal and ret pseudo-ops.
+Lots of pseudo instructions added for readability, optimized to use `with` and implicit Sreg/Dreg where appropriate. (Sreg = source register, Dreg = destination register)
 
-To enable inline GSU assembly, define GSU_INLINE (can be any value, as long as the symbol is defined) before including casfx.inc.
-This will allow you to assemble GSU code in a 65816 assembly file, however all GSU opcodes (except move/moves/moveb/movew) are prefixed with an m to avoid collisions.
+Here are a few examples (semi-colons separate statements)
 
-	mwith R15
-	mto R1
-	mplot
-	mmult #5
-	you get the idea
+| Pseudo instruction | Generated instructions |
+| --- | --- |
+| `add r1, r2, r3` | `to r1; from r2; add r3` |
+| `sub r0, r0, r1` | `sub r1` |
+| `sub r0, r1, r0` | `from r1; sub r0` |
+| `mult r1, r1, #4` | `with r1; mult #4` |
+| `div2 r1, r4` | `to r1; from r4; div2` |
+| `rol r1` | `with r1; rol` |
+| `hib r1, r0` | `to r1; hib` |
+| `fmult r1, r1, r6` | `with r1; fmult` |
+| `fmult r1, r6, r6` | `to r1; from r6; fmult` |
+| `lmult r1, r4, r0, r6` | `to r1; lmult` |
+| `getb r1` | `with r1; getb` |
 
-By ARM9, 2013 - 2014
+Basically works how you'd expect a RISC to behave (see mips, arm instruction
+sets).
+Generally, any instruction which uses Dreg AND Sreg AND has one operand can take up to 3 operands as a pseudo-instruction.
+Instructions which use Dreg AND Sreg but have no operand can take up to 2
+operands.
+Instructions which use either Dreg OR Sreg can take one operand.
+The `fmult` and `lmult` syntax probably begs for an explanation.
+These instructions use r6 as an implicit source operand, it is only added to the
+pseudo-instruction for clarity. `lmult` also uses r4 as an implicit source
+(low word of 32-bit result), what it boils down to is `lmult high, low (must be r4), Sreg, Sreg2 (at least one Sreg needs to be r6)`. `fmult` is the same except it has no implicit destination register.
 
+All of the basic instructions are still available.
+
+Use the autonop "directive" to have the assembler automatically insert a `nop` opcode after `jal`, `ret` and `pop r15` pseudo-ops.
