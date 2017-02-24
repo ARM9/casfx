@@ -22,15 +22,24 @@ Here are a few examples (semi-colons separate statements)
 
 Basically works how you'd expect a RISC to behave (see mips, arm instruction
 sets).
+
 Generally, any instruction which uses Dreg AND Sreg AND has one operand can take up to 3 operands as a pseudo-instruction.
+
 Instructions which use Dreg AND Sreg but have no operand can take up to 2
 operands.
+
 Instructions which use either Dreg OR Sreg can take one operand.
+
 The `fmult` and `lmult` syntax probably begs for an explanation.
+
 These instructions use r6 as an implicit source operand, it is only added to the
-pseudo-instruction for clarity. `lmult` also uses r4 as an implicit source
-(low word of 32-bit result), what it boils down to is `lmult high, low (must be r4), Sreg, Sreg2 (at least one Sreg needs to be r6)`. `fmult` is the same except it has no implicit destination register.
+pseudo-instruction for clarity.
+
+`lmult` also uses r4 as an implicit source (low word of 32-bit result), what it boils down to is `lmult high, low (must be r4), Sreg, Sreg2 (at least one Sreg needs to be r6)`.
+
+`fmult` is the same except it has no implicit destination register.
 
 All of the basic instructions are still available.
+
 
 Use the autonop "directive" to have the assembler automatically insert a `nop` opcode after `jal`, `ret` and `pop r15` pseudo-ops.
