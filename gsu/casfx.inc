@@ -663,7 +663,10 @@ _GSU_CPU_INC = 1
                     .endif
                 .endif
             .else
-                .assert 0, error, .concat(_CASFX_ERR_STR, "FMULT: 0, 1 or 3 operands please")
+                .assert a1 = r6 , error, .concat(_CASFX_ERR_STR, "FMULT: at least one source register must be R6")
+                .if a0 <> r0
+                with a0
+                .endif
             .endif
         .else
             .if a0 <> r0
@@ -675,46 +678,16 @@ _GSU_CPU_INC = 1
 .endmac
 
 ; lmult a0 -> with a0; lmult
-; lmult a0, r4, a2 -> to a0; from a2; lmult
 ; lmult a0, r4, a2, a3 -> to a0; from (a2==r6?a3:a2); lmult
 .macro lmult a0, a1, a2, a3
+    .assert .paramcount <> 2 && .paramcount <> 3, error, .concat(_CASFX_ERR_STR, "LMULT: 0, 1, or 4 operands please")
+
     .ifnblank a0
         .assert a0 <> r4, error, .concat(_CASFX_ERR_STR, "LMULT: high destination register can't be R4")
         .ifnblank a1
             .assert a1 = r4, error, .concat(_CASFX_ERR_STR, "LMULT: low destination register must be R4")
-            .ifnblank a2
-                .ifnblank a3
-                    .if a3 = r6
-                        .if a0 = a2
-                            .if a0 <> r0
-                                with a0
-                            .endif
-                        .else
-                            .if a0 <> r0
-                                to a0
-                            .endif
-                            .if a2 <> r0
-                                from a2
-                            .endif
-                        .endif
-                    .elseif a2 = r6
-                        .if a0 = a3
-                            .if a0 <> r0
-                                with a0
-                            .endif
-                        .else
-                            .if a0 <> r0
-                                to a0
-                            .endif
-                            .if a3 <> r0
-                                from a3
-                            .endif
-                        .endif
-                    .else
-                        .assert 0, error, .concat(_CASFX_ERR_STR, "LMULT: at least one source register must be R6")
-                    .endif
-                .else
-                    ; r6 implied source operand
+            .ifnblank a3
+                .if a3 = r6
                     .if a0 = a2
                         .if a0 <> r0
                             with a0
@@ -726,11 +699,23 @@ _GSU_CPU_INC = 1
                         .if a2 <> r0
                             from a2
                         .endif
-
                     .endif
+                .elseif a2 = r6
+                    .if a0 = a3
+                        .if a0 <> r0
+                            with a0
+                        .endif
+                    .else
+                        .if a0 <> r0
+                            to a0
+                        .endif
+                        .if a3 <> r0
+                            from a3
+                        .endif
+                    .endif
+                .else
+                    .assert 0, error, .concat(_CASFX_ERR_STR, "LMULT: at least one source register must be R6")
                 .endif
-            .else
-                .assert 0, error, .concat(_CASFX_ERR_STR, "LMULT: 0, 1, 3 or 4 operands please")
             .endif
         .else
             .if a0 <> r0
