@@ -25,13 +25,14 @@ sets).
 Generally, any instruction which uses Dreg AND Sreg AND has one operand can take up to 3 operands as a pseudo-instruction.  
 Instructions which use Dreg AND Sreg but have no operand can take up to 2
 operands.  
-Instructions which use either Dreg OR Sreg can take one operand.
+Instructions which use either Dreg OR Sreg can take up to one operand.
 
 The `fmult` and `lmult` syntax probably begs for an explanation.  
 These instructions use r6 as an implicit source operand, it is only added to the
 pseudo-instruction for clarity.  
-`lmult` also uses r4 as an implicit source (low word of 32-bit result), what it boils down to is `lmult high, low (must be r4), Sreg, Sreg2 (at least one Sreg needs to be r6)`.  
-`fmult` is the same except it has no implicit destination register.
+`lmult` also uses r4 as an implicit destination (low word of 32-bit result), what it boils down to is `lmult high (can't be r4), low (must be r4), Sreg, Sreg2 (at least one Sreg must be r6)`.  
+`fmult` is the same except it only has one destination register (upper word of
+32-bit result).
 
 All of the basic instructions are still available.
 
