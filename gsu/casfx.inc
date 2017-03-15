@@ -302,9 +302,9 @@ _GSU_CPU_INC = 1
 
 ; **** Implied
 
-.define stop   _op_implied $00, ; Sends IRQ signal
-.define nop    _op_implied $01, ; Actually clears alt1, alt2 and B flags
-.define cache  _op_implied $02, ; If CBR != R15&$FFF0 then set CBR to R15&$FFF0 and clear all cache flags
+.define stop    _op_implied $00, ; Sends IRQ signal
+.define nop     _op_implied $01, ; Clears alt1, alt2 and B flags
+.define cache   _op_implied $02, ; If CBR != R15&$FFF0 then set CBR to R15&$FFF0 and clear all cache flags
 .define mlsr    _op_implied $03,
 .define mrol    _op_implied $04,
 
@@ -518,6 +518,13 @@ _GSU_CPU_INC = 1
 .macro autonop
     ::_CASFX_AUTO_NOP = 1
 .endmacro
+
+; Warn if cache base register is not aligned to, or sufficiently close to, 16bit boundary
+.macro CacheWarn
+    cache
+    ;           set granularity, 0..x
+    .assert *&$F < 4, warning, .sprintf("Cache base not aligned to 16 bit boundary")
+.endmac
 
 ;.macro jsl dest
 ;;   .assert dest <= $FFFFFF, error, "Address out of range (jsl $00-FF:0000-FFFF)"
