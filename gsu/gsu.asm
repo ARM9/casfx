@@ -51,7 +51,7 @@ GSU_Entry:
     jal     BuildDisplayList
     nop
 
-    cache
+    cache warn,1
 GSU_MainLoop:
 
     lm R0,  (framebuffer_status) ; Check if SCPU has finnished transfering the last framebuffer
@@ -316,7 +316,7 @@ BuildDisplayList:
 ;.endrep
 
         lmult
-        lmult r6, r4, r0
+        lmult r6, r4, r0, r6
         lmult r6, r4, r6, r0
         lmult r6, r4, r6, r6
         ljmp r10

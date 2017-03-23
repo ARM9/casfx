@@ -1,32 +1,36 @@
-errors.asm(4): Error: Invalid argument(s) for FMULT: destination register can't be R4
-../casfx.inc(640): Note: Macro was defined here
-errors.asm(5): Error: Invalid argument(s) for FMULT: at least one source register must be R6
-../casfx.inc(673): Note: Macro was defined here
-errors.asm(6): Error: Invalid argument(s) for FMULT: at least one source register must be R6
-../casfx.inc(643): Note: Macro was defined here
-errors.asm(8): Error: Invalid argument(s) for LMULT: high destination register can't be R4
-../casfx.inc(693): Note: Macro was defined here
-errors.asm(9): Error: Invalid argument(s) for LMULT: 0, 1, or 4 operands please
-../casfx.inc(690): Note: Macro was defined here
-errors.asm(10): Error: Invalid argument(s) for LMULT: 0, 1, or 4 operands please
-../casfx.inc(690): Note: Macro was defined here
-errors.asm(11): Error: Invalid argument(s) for LMULT: at least one source register must be R6
-../casfx.inc(724): Note: Macro was defined here
-errors.asm(12): Error: Invalid argument(s) for LMULT: high destination register can't be R4
-../casfx.inc(693): Note: Macro was defined here
-errors.asm(12): Error: Invalid argument(s) for LMULT: low destination register must be R4
-../casfx.inc(695): Note: Macro was defined here
-errors.asm(14): Error: Invalid argument(s) for MERGE: 0, 1, or 3 operands please
-../casfx.inc(741): Note: Macro was defined here
-errors.asm(15): Error: Invalid argument(s) for MERGE: source registers must be r7, r8
-../casfx.inc(739): Note: Macro was defined here
-errors.asm(16): Error: Invalid argument(s) for MERGE: source registers must be r7, r8
-../casfx.inc(739): Note: Macro was defined here
-errors.asm(17): Error: Invalid argument(s) for MERGE: source registers must be r7, r8
-../casfx.inc(739): Note: Macro was defined here
-errors.asm(19): Error: Invalid argument(s) for PLOT: 0 or 2 operands (r1, r2)
-../casfx.inc(756): Note: Macro was defined here
-errors.asm(20): Error: Invalid argument(s) for PLOT: 0 or 2 operands (r1, r2)
-../casfx.inc(756): Note: Macro was defined here
-errors.asm(21): Error: Invalid argument(s) for PLOT: operands must be r1, r2
-../casfx.inc(754): Note: Macro was defined here
+errors.asm(4): Error: Invalid argument(s) for `CACHE`, expected none or `warn`
+../casfx.inc(535): Note: Macro was defined here
+errors.asm(5): Error: Invalid argument(s) for `CACHE`, expected none or `warn`
+../casfx.inc(535): Note: Macro was defined here
+errors.asm(7): Error: Invalid argument(s) for FMULT: destination register can't be R4
+../casfx.inc(651): Note: Macro was defined here
+errors.asm(8): Error: Invalid argument(s) for FMULT: at least one source register must be R6
+../casfx.inc(684): Note: Macro was defined here
+errors.asm(9): Error: Invalid argument(s) for FMULT: at least one source register must be R6
+../casfx.inc(654): Note: Macro was defined here
+errors.asm(11): Error: Invalid argument(s) for LMULT: high destination register can't be R4
+../casfx.inc(704): Note: Macro was defined here
+errors.asm(12): Error: Invalid argument(s) for LMULT: 0, 1, or 4 operands please
+../casfx.inc(701): Note: Macro was defined here
+errors.asm(13): Error: Invalid argument(s) for LMULT: 0, 1, or 4 operands please
+../casfx.inc(701): Note: Macro was defined here
+errors.asm(14): Error: Invalid argument(s) for LMULT: at least one source register must be R6
+../casfx.inc(735): Note: Macro was defined here
+errors.asm(15): Error: Invalid argument(s) for LMULT: high destination register can't be R4
+../casfx.inc(704): Note: Macro was defined here
+errors.asm(15): Error: Invalid argument(s) for LMULT: low destination register must be R4
+../casfx.inc(706): Note: Macro was defined here
+errors.asm(17): Error: Invalid argument(s) for MERGE: 0, 1, or 3 operands please
+../casfx.inc(752): Note: Macro was defined here
+errors.asm(18): Error: Invalid argument(s) for MERGE: source registers must be r7, r8
+../casfx.inc(750): Note: Macro was defined here
+errors.asm(19): Error: Invalid argument(s) for MERGE: source registers must be r7, r8
+../casfx.inc(750): Note: Macro was defined here
+errors.asm(20): Error: Invalid argument(s) for MERGE: source registers must be r7, r8
+../casfx.inc(750): Note: Macro was defined here
+errors.asm(22): Error: Invalid argument(s) for PLOT: 0 or 2 operands (r1, r2)
+../casfx.inc(767): Note: Macro was defined here
+errors.asm(23): Error: Invalid argument(s) for PLOT: 0 or 2 operands (r1, r2)
+../casfx.inc(767): Note: Macro was defined here
+errors.asm(24): Error: Invalid argument(s) for PLOT: operands must be r1, r2
+../casfx.inc(765): Note: Macro was defined here

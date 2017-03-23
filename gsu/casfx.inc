@@ -304,7 +304,7 @@ _GSU_CPU_INC = 1
 
 .define stop    _op_implied $00, ; Sends IRQ signal
 .define nop     _op_implied $01, ; Clears alt1, alt2 and B flags
-.define cache   _op_implied $02, ; If CBR != R15&$FFF0 then set CBR to R15&$FFF0 and clear all cache flags
+.define mcache   _op_implied $02, ; If CBR != R15&$FFF0 then set CBR to R15&$FFF0 and clear all cache flags
 .define mlsr    _op_implied $03,
 .define mrol    _op_implied $04,
 
@@ -519,11 +519,22 @@ _GSU_CPU_INC = 1
     ::_CASFX_AUTO_NOP = 1
 .endmacro
 
-; Warn if cache base register is not aligned to, or sufficiently close to, 16bit boundary
-.macro CacheWarn
-    cache
-    ;           set granularity, 0..x
-    .assert *&$F < 4, warning, .sprintf("Cache base not aligned to 16 bit boundary")
+.macro cache warn, bytes
+    mcache
+    .ifnblank warn
+        ; Warn if cache base register is not aligned to, or sufficiently close
+        ; to, 16 byte boundary
+        .if .xmatch(.string(warn), {"warn"})
+            .local @granularity
+            @granularity .set 0
+            .ifnblank bytes
+                @granularity .set bytes
+            .endif
+            .assert *&$F <= @granularity, warning, .sprintf("Cache base not aligned to 16 byte boundary")
+        .else
+            .assert 0, error, .concat(_CASFX_ERR_STR, "`CACHE`, expected none or `warn`")
+        .endif
+    .endif
 .endmac
 
 ;.macro jsl dest

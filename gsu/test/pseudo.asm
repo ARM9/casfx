@@ -2,6 +2,12 @@
 
     .code
 main:
+    cache
+    cache warn
+    cache warn, 0
+    cache warn, 1
+    cache warn, 8
+    cache warn, 15
 
     add r0, r1, r0
     adc r0, r0, r1

@@ -2,6 +2,13 @@
 
     .code
 main:
+    cache
+    cache
+    cache
+    cache
+    cache
+    cache
+
     ;add r0, r1, r0
     from r1
     add r0

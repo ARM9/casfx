@@ -1,6 +1,9 @@
     .include "../casfx.inc"
     .code
 main:
+    cache war, 1
+    cache 1
+
     fmult r4
     fmult r1, r1
     fmult r1, r1, r1
