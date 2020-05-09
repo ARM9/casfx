@@ -1,6 +1,6 @@
 
 ## A SuperFX assembler for ca65 ##
-Just include casfx.inc in the gsu folder and you're good to go (requires at least ca65 and ld65, get here http://oliverschmidt.github.io/cc65/).
+Install the toolchain from https://cc65.github.io/ and include [casfx.inc](https://raw.githubusercontent.com/ARM9/casfx/master/gsu/casfx.inc) in your SuperFX assembly files and you're good to go.
 
 Lots of pseudo instructions added for readability, optimized to use `with` and implicit Sreg/Dreg where appropriate. (Sreg = source register, Dreg = destination register)
 
